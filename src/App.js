@@ -1,4 +1,5 @@
 import './App.css';
+import FatchAPI from "./FatchAPI";
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
         <p>
           <code>Hello World! I'm learning React!</code>
         </p>
+          <FatchAPI></FatchAPI>
       </header>
     </div>
   );
