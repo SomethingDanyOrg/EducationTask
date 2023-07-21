@@ -1,3 +1,5 @@
+import './App.css';
+import { Button } from '@carbon/react';
 import React  from "react";
 
 function FetchAPI() {
@@ -11,9 +13,9 @@ function FetchAPI() {
 
     return(
         <div>
-            Weather in Omsk: <br/>
+            <code>Weather in Omsk:</code> <br/><br/>
 
-            <button onClick={apiGet}>Click here</button><br/>
+            <Button onClick={apiGet} kind='primary' size='lg' disabled={false}>Get Weather</Button><br/><br/>
             <p id='weather'>***</p>
 
         </div>
