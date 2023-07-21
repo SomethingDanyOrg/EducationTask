@@ -5,16 +5,16 @@ function FetchAPI() {
         fetch('https://api.openweathermap.org/data/2.5/weather?lat=54.991375&lon=73.371529&appid=b80b988b4d398ce43477baef65f8fc0f&units=metric')
             .then(response => response.json())
             .then(json =>
-                document.getElementById('wather').innerHTML =
+                document.getElementById('weather').innerHTML =
                     JSON.stringify(json.main['feels_like']))
     };
 
     return(
         <div>
-            Wather in Omsk: <br/>
+            Weather in Omsk: <br/>
 
             <button onClick={apiGet}>Click here</button><br/>
-            <p id='wather'>***</p>
+            <p id='weather'>***</p>
 
         </div>
     );
