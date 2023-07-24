@@ -8,7 +8,7 @@ function App() {
         <p>
           <code>Hello World! I'm learning React!</code>
         </p>
-          <FetchAPI></FetchAPI>
+        <FetchAPI />
       </header>
     </div>
   );
