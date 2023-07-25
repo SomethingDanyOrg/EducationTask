@@ -1,4 +1,5 @@
 import './App.css';
+import FetchAPI from "./FetchAPI";
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
         <p>
           <code>Hello World! I'm learning React!</code>
         </p>
+        <FetchAPI />
       </header>
     </div>
   );
