@@ -1,7 +1,7 @@
 @use '@carbon/react';
 
 *{
-  color: aqua;
+  color: white;
 }
 
 body {
@@ -12,13 +12,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-code {
+.App .App-header p {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
   font-size: x-large;
 }
 
-#weather {
-  font-size: x-large;
-  border: 2px solid aqua;
-}
+
+
+
