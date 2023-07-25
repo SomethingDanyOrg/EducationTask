@@ -1,5 +1,5 @@
 # TODO
-1.  Прочитать tutorial по Carbon 
+1.  Прочитал tutorial по Carbon 
 2.  Добавил базовую страницу 'Hello World! I'm learning React!'
 3.  Добавил получение и вывод погоды через функицю Fetch()
 4.  Добавил оформление кнопки используя Carbon
