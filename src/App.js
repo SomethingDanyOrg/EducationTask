@@ -8,7 +8,7 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <Column lg={16} md={16} sm={16}>
-                    <p>Hello World!</p>
+                    <p>Hello World! I'm learning React!</p>
                 </Column>
                 <Scroll />
             </header>
