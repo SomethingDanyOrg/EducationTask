@@ -12,10 +12,14 @@ repositories:
 
 environments:
   development:
+    values:
+      - ./values.dev.yaml.gotmpl
   production:
+    values:
+      - ./values.prod.yaml.gotmpl
 
 releases:
-  - name: {{ .Values.SECRET_NAME }}
+  - name: {{ .Values.SECRET_NAME }}-env-{{ .Environment.Name }}
     namespace: {{ .Values.NS }}
     createNamespace: false
     chart: education/educationtask-chart/educationtask
