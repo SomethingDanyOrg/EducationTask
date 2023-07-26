@@ -134,6 +134,8 @@ jobs:
       - build_and_push
       container:
         image: quay.io/roboll/helmfile:v0.142.0
+      env:
+        HELM_EXPERIMENTAL_OCI: 1
       steps:
       - 
         name: Checkout
