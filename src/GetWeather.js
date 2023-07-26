@@ -1,7 +1,6 @@
 import './App.scss';
-import { Button } from '@carbon/react';
 import React from "react";
-import { Grid, Column } from '@carbon/react';
+import { Grid, Column, Button } from '@carbon/react';
 import configDate from './config.json'
 import axios from "axios";
 
