@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: harbor.quckoo.net/education/daniil
+  repository: harbor.quckoo.net/education/educationtask-image/educationtask
   pullPolicy: IfNotPresent
   tag: "latest"
 
