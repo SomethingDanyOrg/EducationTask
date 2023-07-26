@@ -1,0 +1,27 @@
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: 
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    {{ if eq .Environment.Name "prod" }}
+    - host: daniil.dolgosheev.ru
+    {{else}}
+    - host: daniil.dev.dolgosheev.ru
+    {{end}}
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    {{ if eq .Environment.Name "prod" }}
+    - secretName: chart-application-prod-tls
+    {{else}}
+    - secretName: chart-application-dev-tls
+    {{end}}
+      hosts:
+        {{ if eq .Environment.Name "prod" }}
+        - daniil.dolgosheev.ru
+        {{else}}
+        - daniil.dev.dolgosheev.ru
+        {{end}}
