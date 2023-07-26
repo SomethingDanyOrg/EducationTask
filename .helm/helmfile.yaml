@@ -12,11 +12,7 @@ repositories:
 
 environments:
   development:
-    values:
-      - ./values.dev.yaml.gotmpl
   production:
-    values:
-      - ./values.prod.yaml.gotmpl
 
 releases:
   - name: {{ .Values.SECRET_NAME }}-env-{{ .Environment.Name }}
@@ -32,3 +28,4 @@ releases:
           - name: {{ .Values.SECRET_NAME }}-env-{{ .Environment.Name }}
       - image:
           tag: {{ .Values.IMAGE_TAG }}
+      - ./values.yaml.gotmpl
