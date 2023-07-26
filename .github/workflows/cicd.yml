@@ -125,3 +125,41 @@ jobs:
             "VERSION_TAG=${{ github.ref_name }}"
           push: true
           tags: harbor.quckoo.net/education/daniil:${{ github.ref_name }}, harbor.quckoo.net/education/daniil:latest
+
+  helm-chart:
+      runs-on: 'ubuntu-latest'
+      if: ${{ always() && !(contains(needs.*.result, 'failure')) && !cancelled() }}
+      needs:
+      - build_and_push
+      container:
+        image: quay.io/roboll/helmfile:v0.142.0
+      steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@v3
+      - 
+        name: Get short sha
+        uses: benjlevesque/short-sha@v1.2
+        id: short-sha
+        with:
+          length: 7
+      - 
+        name: Lint Helm chart
+        env:
+          SHORT_SHA: ${{ steps.short-sha.outputs.sha }}
+        run: |
+          APPLICATION_RAW_NAME=${{ github.event.repository.name }}
+          APPLICATION_NAME=$(echo "$APPLICATION_RAW_NAME" | awk '{print tolower($0)}')
+          echo "APPLICATION_NAME=${APPLICATION_NAME}" > $GITHUB_ENV
+          sed -i "s/version\:.*/version\: ${DEFAULT_VERSION_CHART}-${SHORT_SHA}/" .helm/${APPLICATION_NAME}/Chart.yaml
+          sed -i "s/appVersion\:.*/appVersion\: ${DEFAULT_VERSION_CHART}-${SHORT_SHA}/" .helm/${APPLICATION_NAME}/Chart.yaml
+          helm lint ./.helm/${APPLICATION_NAME}
+      - 
+        name: Push Helm chart
+        env:
+          SHORT_SHA: ${{ steps.short-sha.outputs.sha }}
+        run: |
+          helm registry login harbor.quckoo.net --username '${{ secrets.HARBOR_LOGIN }}' --password '${{ secrets.HARBOR_PASSWORD }}'
+          helm package ./.helm/${APPLICATION_NAME}
+          helm push ${APPLICATION_NAME}-${DEFAULT_VERSION_CHART}-${SHORT_SHA}.tgz oci://harbor.quckoo.net/education/${APPLICATION_NAME}-chart
+          rm ${APPLICATION_NAME}-${DEFAULT_VERSION_CHART}-${SHORT_SHA}.tgz
