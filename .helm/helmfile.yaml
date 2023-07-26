@@ -15,7 +15,7 @@ environments:
   production:
 
 releases:
-  - name: application
+  - name: {{ .Values.SECERT_NAME }}
     namespace: {{ .Values.NS }}
     createNamespace: false
     chart: education/educationtask-chart/educationtask
