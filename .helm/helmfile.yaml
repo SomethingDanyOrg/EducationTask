@@ -15,16 +15,16 @@ environments:
   production:
 
 releases:
-  - name: {{ .Values.SECERT_NAME }}
+  - name: application
     namespace: {{ .Values.NS }}
     createNamespace: false
     chart: education/educationtask-chart/educationtask
-    version: {{ .Values.CHART_TAG }}
+    version: 0.0.0-f322068
     values:
       - imagePull:
           credentials: {{ .Values.IMAGE_PULL_SECRET_CREDENTIALS_BASE64 }}
-          secretName: {{ .Values.SECERT_NAME }}
+          secretName: application
       - imagePullSecrets: 
-          - name: {{ .Values.SECERT_NAME }}
+          - name: application
       - image:
-          tag: {{ .Values.IMAGE_TAG }}
+          tag: f322068-dev
