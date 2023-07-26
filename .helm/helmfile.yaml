@@ -15,7 +15,7 @@ environments:
   production:
 
 releases:
-  - name: {{ .Values.APPLICATION_NAME }}-env-{{ .Environment.Name }}
+  - name: application-env-{{ .Environment.Name }}
     namespace: {{ .Values.NS }}
     createNamespace: false
     chart: education/educationtask-chart/educationtask
