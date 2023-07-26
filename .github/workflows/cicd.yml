@@ -28,6 +28,7 @@ defaults:
 env:
   PRODUCTION_NS: production
   DEVELOPMENT_NS: development
+  DEFAULT_VERSION_CHART: 0.0.0
 
 jobs:
   choose_enviroment:
