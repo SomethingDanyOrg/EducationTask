@@ -15,16 +15,10 @@ environments:
   production:
 
 releases:
-  - name: application
-    namespace: jasper-development
+  - name: {{ .Values.APPLICATION_NAME }}-env-{{ .Environment.Name }}
+    namespace: {{ .Values.NS }}
     createNamespace: false
     chart: education/educationtask-chart/educationtask
-    version: 0.0.0-f322068
+    version: {{ .Values.CHART_TAG }}
     values:
-      - imagePull:
-          credentials: 'eyJhdXRocyI6eyJoYXJib3IucXVja29vLm5ldCI6eyJ1c2VybmFtZSI6ImhhbWFhamEiLCJwYXNzd29yZCI6ImpuaXFRY1IxOTg3IiwiZW1haWwiOiJkZG9sZ29zaGVldjJAZ21haWwuY29tIiwiYXV0aCI6ImFHRnRZV0ZxWVRwcWJtbHhVV05TTVRrNE53PT0ifX19'
-          secretName: application
-      - imagePullSecrets: 
-          - name: application
-      - image:
-          tag: f322068-dev
+      - ./values.yaml.gotmpl
