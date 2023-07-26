@@ -15,10 +15,16 @@ environments:
   production:
 
 releases:
-  - name: application-env-{{ .Environment.Name }}
+  - name: {{ .Values.SECRET_NAME }}
     namespace: {{ .Values.NS }}
     createNamespace: false
     chart: education/educationtask-chart/educationtask
     version: {{ .Values.CHART_TAG }}
     values:
-      - ./values.yaml.gotmpl
+      - imagePull:
+          credentials: {{ .Values.IMAGE_PULL_SECRET_CREDENTIALS_BASE64 }}
+          secretName: {{ .Values.SECRET_NAME }}
+      - imagePullSecrets: 
+          - name: {{ .Values.SECRET_NAME }}
+      - image:
+          tag: {{ .Values.IMAGE_TAG }}
