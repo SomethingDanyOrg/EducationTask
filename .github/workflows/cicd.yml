@@ -190,4 +190,10 @@ jobs:
         run: |
           echo ${{ secrets.KUBE_CONFIG }} | base64 -d > ~/CONFIG
           export KUBECONFIG=~/CONFIG
-          helmfile -f .helm/helmfile.yaml -e ${{ inputs.environment }} --state-values-set HARBOR_LOGIN=${{ secrets.HARBOR_LOGIN }},HARBOR_PASSWORD=${{ secrets.HARBOR_PASSWORD }},NS=jasper-${{ inputs.environment }},IMAGE_PULL_SECRET_CREDENTIALS_BASE64=${{ secrets.IMAGE_PULL_SECRET_CREDENTIALS_BASE64 }},SECERT_NAME='application',IMAGE_TAG=${DEFAULT_VERSION_CHART}-${SHORT_SHA} apply
+          if [[ ${{ inputs.environment == 'production' && github.ref_type == 'tag' }} ]]; then
+            IMG_TAG=${{ github.ref_name }}
+          else
+            IMG_TAG=${SHORT_SHA}-dev
+          fi
+          echo $IMG_TAG
+          helmfile -f .helm/helmfile.yaml -e ${{ inputs.environment }} --state-values-set HARBOR_LOGIN=${{ secrets.HARBOR_LOGIN }},HARBOR_PASSWORD=${{ secrets.HARBOR_PASSWORD }},NS=jasper-${{ inputs.environment }},IMAGE_PULL_SECRET_CREDENTIALS_BASE64=${{ secrets.IMAGE_PULL_SECRET_CREDENTIALS_BASE64 }},SECERT_NAME='application',CHART_TAG=${DEFAULT_VERSION_CHART}-${SHORT_SHA},IMAGE_TAG=${IMG_TAG} apply

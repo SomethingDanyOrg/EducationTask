@@ -5,7 +5,7 @@ helmDefaults:
 
 repositories:
    - url: harbor.quckoo.net/education
-     name: educationtask-chart/educationtask
+     name: education
      username: {{ .Values.HARBOR_LOGIN }}
      password: {{ .Values.HARBOR_PASSWORD }}
      oci: true
@@ -18,7 +18,8 @@ releases:
   - name: application
     namespace: {{ .Values.NS }}
     createNamespace: false
-    chart: educationtask-chart/educationtask
+    chart: education/educationtask-chart/educationtask
+    version: {{ .Values.CHART_TAG }}
     values:
       - imagePull:
           credentials: {{ .Values.IMAGE_PULL_SECRET_CREDENTIALS_BASE64 }}
