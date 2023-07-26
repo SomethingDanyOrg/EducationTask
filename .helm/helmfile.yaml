@@ -16,7 +16,7 @@ environments:
 
 releases:
   - name: application
-    namespace: {{ .Values.NS }}
+    namespace: jasper-development
     createNamespace: false
     chart: education/educationtask-chart/educationtask
     version: 0.0.0-f322068
