@@ -1,0 +1,31 @@
+helmDefaults:
+  wait: true
+  atomic: true
+  timeout: 300
+
+repositories:
+   - url: harbor.quckoo.net/education
+     name: education
+     username: {{ .Values.HARBOR_LOGIN }}
+     password: {{ .Values.HARBOR_PASSWORD }}
+     oci: true
+
+environments:
+  development:
+  production:
+
+releases:
+  - name: {{ .Values.SECRET_NAME }}-env-{{ .Environment.Name }}
+    namespace: {{ .Values.NS }}
+    createNamespace: false
+    chart: education/educationtask-chart/educationtask
+    version: {{ .Values.CHART_TAG }}
+    values:
+      - imagePull:
+          credentials: {{ .Values.IMAGE_PULL_SECRET_CREDENTIALS_BASE64 }}
+          secretName: {{ .Values.SECRET_NAME }}-env-{{ .Environment.Name }}
+      - imagePullSecrets: 
+          - name: {{ .Values.SECRET_NAME }}-env-{{ .Environment.Name }}
+      - image:
+          tag: {{ .Values.IMAGE_TAG }}
+      - ./values.yaml.gotmpl
