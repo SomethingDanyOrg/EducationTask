@@ -1,7 +1,7 @@
 import './App.scss';
 import { Column } from '@carbon/react';
 import Scroll from "./Scroll";
-import FetchAPI from "./FetchAPI";
+import GetWeather from "./GetWeather";
 
 function App() {
     return (
@@ -13,7 +13,7 @@ function App() {
                 <Scroll />
             </header>
             <footer id="Container">
-                <FetchAPI />
+                <GetWeather />
             </footer>
         </div>
     );
