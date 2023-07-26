@@ -27,8 +27,8 @@ releases:
     values:
       - imagePull:
           credentials: {{ .Values.IMAGE_PULL_SECRET_CREDENTIALS_BASE64 }}
-          secretName: {{ .Values.SECRET_NAME }}
+          secretName: {{ .Values.SECRET_NAME }}-env-{{ .Environment.Name }}
       - imagePullSecrets: 
-          - name: {{ .Values.SECRET_NAME }}
+          - name: {{ .Values.SECRET_NAME }}-env-{{ .Environment.Name }}
       - image:
           tag: {{ .Values.IMAGE_TAG }}
