@@ -163,7 +163,6 @@ jobs:
           SHORT_SHA: ${{ steps.short-sha.outputs.sha }}
         run: |
           helm registry login harbor.quckoo.net --username '${{ secrets.HARBOR_LOGIN }}' --password '${{ secrets.HARBOR_PASSWORD }}'
-          cd ./.helm/
-          helm package ${APPLICATION_NAME}
+          helm package ./.helm/${APPLICATION_NAME}
           helm push ${APPLICATION_NAME}-${DEFAULT_VERSION_CHART}-${SHORT_SHA}.tgz oci://harbor.quckoo.net/education/${APPLICATION_NAME}-chart
           rm ${APPLICATION_NAME}-${DEFAULT_VERSION_CHART}-${SHORT_SHA}.tgz
