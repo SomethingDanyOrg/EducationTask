@@ -172,6 +172,7 @@ jobs:
       if: ${{ always() && !(contains(needs.*.result, 'failure')) && !cancelled() }}
       needs:
       - helm_prepare_and_push
+      environment: ${{ inputs.environment }}
       container:
         image: quay.io/roboll/helmfile:v0.142.0
       env:
@@ -185,8 +186,6 @@ jobs:
         with:
           length: 7
       - name: deploy
-        with:
-          environment: ${{ inputs.environment }}
         env:
           SHORT_SHA: ${{ steps.short-sha.outputs.sha }}
         run: |
