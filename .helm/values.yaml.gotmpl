@@ -5,7 +5,7 @@ ingress:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
   hosts:
-    {{ if eq .Environment.Name "prod" }}
+    {{ if eq .Environment.Name "production" }}
     - host: daniil.dolgosheev.ru
     {{else}}
     - host: daniil.dev.dolgosheev.ru
@@ -14,13 +14,13 @@ ingress:
         - path: /
           pathType: ImplementationSpecific
   tls:
-    {{ if eq .Environment.Name "prod" }}
+    {{ if eq .Environment.Name "production" }}
     - secretName: chart-application-prod-tls
     {{else}}
     - secretName: chart-application-dev-tls
     {{end}}
       hosts:
-        {{ if eq .Environment.Name "prod" }}
+        {{ if eq .Environment.Name "production" }}
         - daniil.dolgosheev.ru
         {{else}}
         - daniil.dev.dolgosheev.ru
