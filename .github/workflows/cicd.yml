@@ -80,7 +80,7 @@ jobs:
           echo "Deploy failed! Production includes only tagged versions, development excludes tagged versions!"
           exit 1
 
-  build_and_push:
+  image_build_and_push:
       runs-on: 'ubuntu-latest'
       if: ${{ always() && !(contains(needs.*.result, 'failure')) && !cancelled() }}
       needs:
@@ -127,11 +127,11 @@ jobs:
           push: true
           tags: harbor.quckoo.net/education/educationtask-image/educationtask:${{ github.ref_name }}, harbor.quckoo.net/education/educationtask-image/educationtask:latest
 
-  helm-chart:
+  helm_prepare_and_push:
       runs-on: 'ubuntu-latest'
       if: ${{ always() && !(contains(needs.*.result, 'failure')) && !cancelled() }}
       needs:
-      - build_and_push
+      - image_build_and_push
       container:
         image: quay.io/roboll/helmfile:v0.142.0
       env:
@@ -166,3 +166,28 @@ jobs:
           helm package ./.helm/${APPLICATION_NAME}
           helm push ${APPLICATION_NAME}-${DEFAULT_VERSION_CHART}-${SHORT_SHA}.tgz oci://harbor.quckoo.net/education/${APPLICATION_NAME}-chart
           rm ${APPLICATION_NAME}-${DEFAULT_VERSION_CHART}-${SHORT_SHA}.tgz
+
+  helm-install:
+      runs-on: 'ubuntu-latest'
+      if: ${{ always() && !(contains(needs.*.result, 'failure')) && !cancelled() }}
+      needs:
+      - helm_prepare_and_push
+      container:
+        image: quay.io/roboll/helmfile:v0.142.0
+      env:
+        HELM_EXPERIMENTAL_OCI: 1
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Get short sha
+        uses: benjlevesque/short-sha@v1.2
+        id: short-sha
+        with:
+          length: 7
+      - name: deploy
+        env:
+          SHORT_SHA: ${{ steps.short-sha.outputs.sha }}
+        run: |
+          echo ${{ secrets.KUBE_CONFIG }} | base64 -d > ~/CONFIG
+          export KUBECONFIG=~/CONFIG
+          helmfile -f .helm/helmfile.yaml -e ${{ inputs.environment }} --state-values-set HARBOR_LOGIN=${{ secrets.HARBOR_LOGIN }},HARBOR_PASSWORD=${{ secrets.HARBOR_PASSWORD }},NS=jasper-${{ inputs.environment }},IMAGE_PULL_SECRET_CREDENTIALS_BASE64=${{ secrets.IMAGE_PULL_SECRET_CREDENTIALS_BASE64 }},SECERT_NAME='application',IMAGE_TAG=${DEFAULT_VERSION_CHART}-${SHORT_SHA} apply
