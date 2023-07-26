@@ -190,4 +190,4 @@ jobs:
         run: |
           echo ${{ secrets.KUBE_CONFIG }} | base64 -d > ~/CONFIG
           export KUBECONFIG=~/CONFIG
-          helmfile -f .helm/helmfile.yaml -e ${{ inputs.environment }} --state-values-set HARBOR_LOGIN=${{ secrets.HARBOR_LOGIN }},HARBOR_PASSWORD=${{ secrets.HARBOR_PASSWORD }},NS=jasper-${{ inputs.environment }},IMAGE_PULL_SECRET_CREDENTIALS_BASE64=${{ secrets.IMAGE_PULL_SECRET_CREDENTIALS_BASE64 }},SECRET_NAME='application',CHART_TAG=${DEFAULT_VERSION_CHART}-${SHORT_SHA},IMAGE_TAG=${SHORT_SHA}-dev apply
+          helmfile -f .helm/helmfile.yaml -e ${{ inputs.environment }} --state-values-set HARBOR_LOGIN=${{ secrets.HARBOR_LOGIN }},HARBOR_PASSWORD=${{ secrets.HARBOR_PASSWORD }},NS=jasper-${{ inputs.environment }},IMAGE_PULL_SECRET_CREDENTIALS_BASE64=${{ secrets.IMAGE_PULL_SECRET_CREDENTIALS_BASE64 }},SECRET_NAME='application',CHART_TAG=${DEFAULT_VERSION_CHART}-${SHORT_SHA},IMAGE_TAG=${SHORT_SHA}-dev sync
