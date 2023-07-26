@@ -191,7 +191,7 @@ jobs:
         run: |
           echo ${{ secrets.KUBE_CONFIG }} | base64 -d > ~/CONFIG
           export KUBECONFIG=~/CONFIG
-          if [[ ${{ inputs.environment == 'production' && github.ref_type == 'tag' }} ]]; then
+          if ${{ inputs.environment == 'production' && github.ref_type == 'tag' }}; then
             IMG_TAG=${{ github.ref_name }}
           else
             IMG_TAG=${SHORT_SHA}-dev
