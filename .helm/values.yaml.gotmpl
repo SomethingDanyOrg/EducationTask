@@ -4,9 +4,9 @@ ingress:
   annotations: 
     kubernetes.io/ingress.class: nginx
     {{ if eq .Environment.Name "production" }}
-    cert-manager.io/cluster-issuer: "letsencrypt0educationtask-prod"
+    cert-manager.io/cluster-issuer: "letsencrypt-educationtask-prod"
     {{else}}
-    cert-manager.io/cluster-issuer: "letsencrypt0educationtask-prod"
+    cert-manager.io/cluster-issuer: "letsencrypt-educationtask-prod"
     {{end}}
   hosts:
     {{ if eq .Environment.Name "production" }}
