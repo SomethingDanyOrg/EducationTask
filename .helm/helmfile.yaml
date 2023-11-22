@@ -4,7 +4,7 @@ helmDefaults:
   timeout: 300
 
 repositories:
-   - url: harbor.quckoo.net/education
+   - url: registry.quckoo.net/education
      name: education
      username: {{ .Values.HARBOR_LOGIN }}
      password: {{ .Values.HARBOR_PASSWORD }}
